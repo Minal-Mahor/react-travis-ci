@@ -1,5 +1,17 @@
-dist: trusty
-
 language: node_js
 node_js:
   - 7
+
+services:
+  - docker 
+
+
+before_install:
+  - docker build -t react-example:latest .
+  - docker images 
+
+deploy:
+  provider: script
+  script: bash docker_push
+  on:
+    branch: master

@@ -1,5 +1,20 @@
+# FROM nginx:1.15.2-alpine
+# COPY build /var/www
+# COPY nginx.conf /etc/nginx/nginx.conf
+# EXPOSE 80
+# ENTRYPOINT ["nginx","-g","daemon off;"]
+
+
+
+
+FROM mhart/alpine-node:11 AS builder
+WORKDIR /app
+COPY . /app
+RUN npm run build
+
+
 FROM nginx:1.15.2-alpine
-COPY build /var/www
+COPY --from=builder /app/build /var/www/
 COPY nginx.conf /etc/nginx/nginx.conf
 EXPOSE 80
 ENTRYPOINT ["nginx","-g","daemon off;"]
@@ -45,21 +60,6 @@ ENTRYPOINT ["nginx","-g","daemon off;"]
 
 
 
-
-
-
-
-# FROM mhart/alpine-node:11 AS builder
-# WORKDIR /app
-# COPY . /app
-# RUN npm run build
-
-
-# FROM nginx:1.15.2-alpine
-# COPY --from=builder /app/build /var/www/
-# COPY nginx.conf /etc/nginx/nginx.conf
-# EXPOSE 80
-# ENTRYPOINT ["nginx","-g","daemon off;"]
 
 
 
