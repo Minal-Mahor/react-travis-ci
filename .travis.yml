@@ -7,12 +7,12 @@ services:
 
 
 script:
-  - docker build -t react-example:latest .
+  - docker build -t minalmahor/reactapp .
   - docker images 
 
 deploy:
   provider: script
   script: bash docker_push
   on:
-    branch: dockerhub
+    branch: master
 
